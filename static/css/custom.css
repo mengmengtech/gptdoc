@@ -1,0 +1,32 @@
+html {
+    font-family: Roboto;
+}
+
+.markdown-section h1 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 36px;
+    font-size: 32px;
+    font-family: inherit;
+    line-height: 1.125;
+    font-weight: 800;
+}
+.markdown-section h2 {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 24px;
+    font-size: 24px;
+    font-family: inherit;
+    line-height: 1.125;
+    font-weight: 800;
+    margin-top: 36px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--theme-ui-colors-border,rgba(206,212,222,0.9));
+    padding-bottom: 0.5rem;
+}
+.sidebar-nav a {
+    color: var(--theme-ui-colors-sidebar-navGroup,#000000);
+    text-decoration: none;
+    font-size: 16px;
+}
