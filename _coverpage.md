@@ -1,7 +1,7 @@
-﻿# GPTGOOD <small>1.0</small>
+# GPT助手 <small>0.1</small>
 
-> GPT国度  
+> GPT助手  
 
 
-[代码库](https://github.com/mengmengtech/gptdoc)
-[中文](/zh-cn/guide)
+[GPT](/zh-cn/design/gpt.md)
+[助手](/zh-cn/design/god.md)
