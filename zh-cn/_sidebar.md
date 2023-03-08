@@ -1,14 +1,12 @@
 * **使用说明**
-* [角色属性](zh-cn/account/character)
-* [快速创建](zh-cn/account/quick)
-* [进阶创作](zh-cn/account/advance)
+* [欢迎](zh-cn/welcome)
+* [GPT](zh-cn/design/gpt)
 
-* [提示管理](zh-cn/ops/guide)
+* [助手](zh-cn/design/god)
 
-[//]: # (* [角色社区]&#40;zh-cn/design/guide&#41;)
+[//]: # (* [界面说明]&#40;zh-cn/design/guide&#41;)
 
 * **链接**
 * [官网](https://www.gptgood.com)
-* [API](https://api.gptgood.com)
-* [文档](https://doc.gptgood.com)
+* [文档](https://gptdoc.4everland.app)
   
