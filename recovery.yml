@@ -1,0 +1,343 @@
+openapi: 3.0.2
+info:
+  title: Open AI AIOPS Platform Api
+  version: '1.0'
+servers:
+  - url: https://api.aiops.com/api/v2/platform
+tags:
+  - name: open-ai-aiops-endpoint
+    description: Open AI AIOPS Endpoint. The automated operations for system maintenance and administration.
+paths:
+  /create_change_file/:
+    get:
+      tags:
+        - recovery
+      summary: create a lock file and change its owner
+      operationId: command_create_change_file_api_v2_platform_create_change_file__get
+      parameters:
+        - description: RT ticket number
+          required: true
+          schema:
+            title: Rt No
+            type: string
+            description: RT ticket number
+          name: rt_no
+          in: query
+        - description: operator user id
+          required: true
+          schema:
+            title: Client User
+            type: string
+            description: operator user id
+          name: client_user
+          in: query
+        - description: the file need to be created
+          required: true
+          schema:
+            title: File Name
+            type: string
+            description: the file need to be created
+          name: file_name
+          in: query
+        - description: the file owner
+          required: true
+          schema:
+            title: New Owner
+            type: string
+            description: the file owner
+          name: new_owner
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /create_table_in_db/:
+    get:
+      tags:
+        - recovery
+      summary: create a table in mariadb
+      operationId: command_create_table_in_db_api_v2_platform_create_table_in_db__get
+      parameters:
+        - description: RT ticket number
+          required: true
+          schema:
+            title: Rt No
+            type: string
+            description: RT ticket number
+          name: rt_no
+          in: query
+        - description: operator user id
+          required: true
+          schema:
+            title: Client User
+            type: string
+            description: operator user id
+          name: client_user
+          in: query
+        - description: table name in mariadb
+          required: true
+          schema:
+            title: Table Name
+            type: string
+            description: table name in mariadb
+          name: table_name
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /login:
+    post:
+      summary: Login For Access Token
+      operationId: login_for_access_token_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginModel'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /token:
+    post:
+      summary: Login Access Token
+      operationId: login_access_token_token_post
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_login_access_token_token_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    BaseResponse:
+      title: BaseResponse
+      required:
+        - code
+        - message
+        - data
+      type: object
+      properties:
+        code:
+          title: Code
+          type: integer
+        message:
+          title: Message
+          type: string
+        data:
+          title: Data
+          type: object
+      example:
+        code: 200
+        message: successful
+        data:
+          msg: success
+    BertResponse:
+      title: BertResponse
+      required:
+        - code
+        - message
+        - data
+      type: object
+      properties:
+        code:
+          title: Code
+          type: integer
+        message:
+          title: Message
+          type: string
+        data:
+          title: Data
+          type: object
+      example:
+        code: 200
+        message: successful
+        data:
+          cosine_list:
+            - cosine: 0.9060179
+              sentence: give me the disk usage chart
+            - cosine: 0.5350014
+              sentence: give me the cpu usage
+    BertTextMatch:
+      title: BertTextMatch
+      required:
+        - src_text
+        - top_k
+      type: object
+      properties:
+        src_text:
+          title: Src Text
+          type: string
+        top_k:
+          title: Top K
+          type: integer
+      example:
+        src_text: show me the disk usage
+        top_k: 3
+    Body_login_access_token_token_post:
+      title: Body_login_access_token_token_post
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        grant_type:
+          title: Grant Type
+          pattern: password
+          type: string
+        username:
+          title: Username
+          type: string
+        password:
+          title: Password
+          type: string
+        scope:
+          title: Scope
+          type: string
+          default: ''
+        client_id:
+          title: Client Id
+          type: string
+        client_secret:
+          title: Client Secret
+          type: string
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    LoginModel:
+      title: LoginModel
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          title: Username
+          type: string
+        password:
+          title: Password
+          type: string
+    TextMatch:
+      title: TextMatch
+      required:
+        - src_text
+        - target_text_list
+      type: object
+      properties:
+        src_text:
+          title: Src Text
+          type: string
+        target_text_list:
+          title: Target Text List
+          type: array
+          items: {}
+      example:
+        src_text: |-
+          [BitsDBA][StorageAlert][CS] m2-cs-console01.sbisec.int
+              Storage Alert: DBA Lepus Monitor Alert
+              Timestamp:2022-05-14 08:19:29.522850
+              LogServer:m2-cs-console01.sbisec.int
+              <3>2022-05-14 08:15:13,395 - ERROR - "[BitsDBA][StorageAlert][PowerMax-PROD] ServerIP:10.39.98.23"10.39.84.31
+              (p2-pmax-edfcp01) - 2022-05-14 08:15:01 - port status change  port:{'port7': '2'}<==10.39.98.21
+          DB:lepus_check
+        target_text_list:
+          - |-
+            [BitsDBA][StorageAlert][CS] m2-cs-console01.sbisec.int
+                Storage Alert: DBA Lepus Monitor Alert
+                Timestamp:2022-05-14 08:19:29.522850
+                LogServer:m2-cs-console01.sbisec.int
+                <3>2022-05-14 08:15:13,396 - ERROR - "[BitsDBA][StorageAlert][PowerMax-PROD] ServerIP:10.39.98.23"
+                10.39.84.31(p2-pmax-edfcp01) - 2022-05-14 08:15:01 - port status change error-old:1@1@1@1@1@1@1@1@1@1@1@1@1@1@1@1
+                @1@1@1@1@1@1@1@1@1@1@1@1@2@2@2@2@2@2@2@2@2@2@2@2@2@1@1@1@1@1@1@1@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0
+                @0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@0@1@1@1@1@1@1@1@1@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2@2
+                <==10.39.98.21
+            DB:lepus_check
+    Token:
+      title: Token
+      required:
+        - access_token
+        - token_type
+      type: object
+      properties:
+        access_token:
+          title: Access Token
+          type: string
+        token_type:
+          title: Token Type
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    OAuth2PasswordBearer:
+      type: oauth2
+      flows:
+        password:
+          scopes: {}
+          tokenUrl: token
